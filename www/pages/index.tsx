@@ -1,51 +1,21 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { client } from "../utils/client";
+import {
+  GetFriends,
+  GetFriendsQuery,
+  GetFriendsQueryVariables,
+} from "../generated/graphql";
 
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-type Data = {
-  friend: Record<string, string>[];
-};
+interface Props {
+  friends: GetFriendsQuery["friend"];
+}
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  let friends;
-
-  try {
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT as string,
-      {
-        method: "POST",
-        headers: {
-          "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET as string,
-        },
-        body: JSON.stringify({
-          query: `query {
-          friend {
-            name
-          }
-        }`,
-        }),
-      }
-    );
-
-    const result = await response.json();
-    const data: Data = result.data;
-
-    friends = data.friend;
-  } catch (e) {
-    console.log(e);
-  }
-
-  return {
-    props: { friends },
-  };
-};
-
-const Home: NextPage = ({
-  friends,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Home: NextPage<Props> = ({ friends }) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -55,8 +25,8 @@ const Home: NextPage = ({
       </Head>
 
       <main className={styles.main}>
-        {friends.map((friend: { name: string }, index: any) => (
-          <p key={index}>{friend.name}</p>
+        {friends.map((friend) => (
+          <p key={friend.id}>{friend.name}</p>
         ))}
       </main>
 
@@ -77,3 +47,19 @@ const Home: NextPage = ({
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return client
+    .query<GetFriendsQuery, GetFriendsQueryVariables>(GetFriends)
+    .toPromise()
+    .then((d) => {
+      return {
+        props: { friends: d.data?.friend },
+      };
+    })
+    .catch((e) => {
+      return {
+        props: {},
+      };
+    });
+};

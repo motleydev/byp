@@ -6,14 +6,27 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "graphql-codegen -r dotenv/config --config codegen.yml dotenv_config_path=./.env.local"
   },
   "dependencies": {
+    "@urql/core": "^2.5.0",
+    "dotenv": "^16.0.1",
+    "graphql": "^16.5.0",
+    "graphql-ws": "^5.9.1",
     "next": "12.2.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "next-urql": "^3.3.3",
+    "react": "^18.2.0",
+    "react-dom": "18.2.0",
+    "urql": "^2.2.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.6.4",
+    "@graphql-codegen/introspection": "2.1.1",
+    "@graphql-codegen/typescript": "2.5.1",
+    "@graphql-codegen/typescript-document-nodes": "2.2.13",
+    "@graphql-codegen/typescript-operations": "2.4.2",
+    "@graphql-codegen/urql-introspection": "2.1.1",
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
