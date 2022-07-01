@@ -1,9 +1,51 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-const Home: NextPage = () => {
+type Data = {
+  friend: Record<string, string>[];
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  let friends;
+
+  try {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT as string,
+      {
+        method: "POST",
+        headers: {
+          "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET as string,
+        },
+        body: JSON.stringify({
+          query: `query {
+          friend {
+            name
+          }
+        }`,
+        }),
+      }
+    );
+
+    const result = await response.json();
+    const data: Data = result.data;
+
+    friends = data.friend;
+  } catch (e) {
+    console.log(e);
+  }
+
+  return {
+    props: { friends },
+  };
+};
+
+const Home: NextPage = ({
+  friends,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +54,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>Hello</main>
+      <main className={styles.main}>
+        {friends.map((friend: { name: string }) => (
+          <p>{friend.name}</p>
+        ))}
+      </main>
 
       <footer className={styles.footer}>
         <a
