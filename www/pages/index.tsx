@@ -55,8 +55,8 @@ const Home: NextPage = ({
       </Head>
 
       <main className={styles.main}>
-        {friends.map((friend: { name: string }) => (
-          <p>{friend.name}</p>
+        {friends.map((friend: { name: string }, index: any) => (
+          <p key={index}>{friend.name}</p>
         ))}
       </main>
 
