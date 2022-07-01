@@ -1,0 +1,10 @@
+table:
+  schema: public
+  name: pizza_topping_pizza
+object_relationships:
+  - name: pizza
+    using:
+      foreign_key_constraint_on: pizza_id
+  - name: pizza_topping
+    using:
+      foreign_key_constraint_on: pizza_topping_id

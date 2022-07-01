@@ -1,0 +1,18 @@
+table:
+  schema: public
+  name: pizza
+array_relationships:
+  - name: pizza_orders
+    using:
+      foreign_key_constraint_on:
+        column: pizza_id
+        table:
+          schema: public
+          name: pizza_order
+  - name: pizza_topping_pizzas
+    using:
+      foreign_key_constraint_on:
+        column: pizza_id
+        table:
+          schema: public
+          name: pizza_topping_pizza
