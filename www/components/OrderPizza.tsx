@@ -22,7 +22,7 @@ export default function OrderPizza({}: Props) {
   ) : (
     <div className="space-y-6 border border-gray-300 p-4 rounded-lg">
       <article className="prose">
-        <h1>Let's get cooking!</h1>
+        <h1>Let&apos;s get cooking!</h1>
         <p>Build a new pizza or choose a popular one!</p>
       </article>
       <ChooseOrBuild />

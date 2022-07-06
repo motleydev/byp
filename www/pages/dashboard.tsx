@@ -37,7 +37,7 @@ const Dashboard: NextPage<Props> = ({ friends }) => {
 
         <section>
           <article className="prose mb-12">
-            <h1>Pizza's you've ordered</h1>
+            <h1>Pizza&apos;s you&apos;ve ordered</h1>
           </article>
           <PizzaOrders />
         </section>

@@ -31,7 +31,7 @@ const Home: NextPage<Props> = ({ friends }) => {
             The number one place for backyard pizza with YOUR friends.
           </h1>
           <p>
-            If you're new here, you probably need to{" "}
+            If you&apos;re new here, you probably need to{" "}
             <Link href="/login">
               <a>Signup or Login</a>
             </Link>
@@ -39,7 +39,7 @@ const Home: NextPage<Props> = ({ friends }) => {
           </p>
         </article>
         <article className="prose mb-4">
-          <h2>Pizza Lovin' Patrons include…</h2>
+          <h2>Pizza Lovin&apos; Patrons include…</h2>
         </article>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
           {friends.map((friend) => (
