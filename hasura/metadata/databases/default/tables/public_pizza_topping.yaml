@@ -9,3 +9,17 @@ array_relationships:
         table:
           schema: public
           name: pizza_topping_pizza
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - emoji
+        - title
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - available
+        - emoji
+        - title
+      filter: {}

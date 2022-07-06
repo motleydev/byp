@@ -1,6 +1,6 @@
 query GetFriends {
   friend {
-    name
+    username
     id
   }
 }

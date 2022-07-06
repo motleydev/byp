@@ -26,6 +26,11 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       ## uncomment next line to set an admin secret
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_JWT_SECRET_TYPE: HS256
+      HASURA_JWT_SECRET_KEY: this-is-a-generic-HS256-secret-key-and-you-should-really-change-it
+      ACTION_BASE_HANDLER: http://host.docker.internal:3000
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+      HASURA_GRAPHQL_JWT_SECRET: '{ "key": "this-is-a-generic-HS256-secret-key-and-you-should-really-change-it", "type": "HS256"}'
 volumes:
   db_data:
 

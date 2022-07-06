@@ -6,6 +6,7 @@ import {
 import { withUrqlClient } from "next-urql";
 import { createClient as createWSClient } from "graphql-ws";
 import { ExchangeIO, createClient } from "urql";
+import { useStore } from "../store/store";
 
 const isServerSide = typeof window === "undefined";
 
@@ -16,11 +17,12 @@ const wsClient = () =>
       "ws"
     ),
     connectionParams: async () => {
-      return isServerSide
+      const token = useStore.getState().user.token;
+
+      return !isServerSide && token
         ? {
             headers: {
-              "x-hasura-admin-secret": process.env
-                .HASURA_ADMIN_SECRET as string,
+              Authorization: `Bearer ${token}`,
             },
           }
         : {};
@@ -50,10 +52,12 @@ const subscribeOrNoopExchange = () =>
 const clientConfig = {
   url: process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT as string,
   fetchOptions: () => {
-    return isServerSide
+    const token = useStore.getState().user.token;
+
+    return !isServerSide && token
       ? {
           headers: {
-            "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET as string,
+            Authorization: `Bearer ${token}`,
           },
         }
       : {};
