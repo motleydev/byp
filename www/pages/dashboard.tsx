@@ -12,6 +12,7 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import OrderPizza from "../components/OrderPizza";
 import PizzaOrders from "../components/PizzaOrders";
+import ActiveOrder from "../components/ActiveOrder";
 
 interface Props {
   friends: GetFriendsQuery["friend"];
@@ -33,6 +34,10 @@ const Dashboard: NextPage<Props> = ({ friends }) => {
 
         <section className="mb-12">
           <OrderPizza />
+        </section>
+
+        <section className="mb-12">
+          <ActiveOrder />
         </section>
 
         <section>

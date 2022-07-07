@@ -1,0 +1,10 @@
+subscription MyOpenOrders {
+  pizza_order(where: { order_status: { _neq: gone } }) {
+    id
+    order_status
+    pizza {
+      id
+      title
+    }
+  }
+}

@@ -2,11 +2,17 @@ import {
   subscriptionExchange,
   defaultExchanges,
   ExchangeInput,
+  errorExchange,
+  fetchExchange,
+  dedupExchange,
+  cacheExchange,
 } from "@urql/core";
 import { withUrqlClient } from "next-urql";
 import { createClient as createWSClient } from "graphql-ws";
 import { ExchangeIO, createClient } from "urql";
 import { useStore } from "../store/store";
+
+const { logout } = useStore.getState();
 
 const isServerSide = typeof window === "undefined";
 
@@ -62,7 +68,22 @@ const clientConfig = {
         }
       : {};
   },
-  exchanges: [...defaultExchanges, subscribeOrNoopExchange()],
+  exchanges: [
+    dedupExchange,
+    cacheExchange,
+    errorExchange({
+      onError: (error) => {
+        const isAuthError = error.graphQLErrors.some((e) => {
+          return e.extensions?.code === "validation-failed";
+        });
+        if (isAuthError) {
+          logout();
+        }
+      },
+    }),
+    fetchExchange,
+    subscribeOrNoopExchange(),
+  ],
 };
 
 export const client = createClient(clientConfig);

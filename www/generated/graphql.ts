@@ -1,9 +1,11 @@
 import gql from 'graphql-tag';
+import * as Urql from 'urql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -82,9 +84,230 @@ export type String_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['String']>;
 };
 
+/** columns and relationships of "admin" */
+export type Admin = {
+  __typename?: 'admin';
+  created_at: Scalars['timestamptz'];
+  /** An object relationship */
+  friend: Friend;
+  friend_id: Scalars['Int'];
+  id: Scalars['Int'];
+  updated_at: Scalars['timestamptz'];
+};
+
+/** aggregated selection of "admin" */
+export type Admin_Aggregate = {
+  __typename?: 'admin_aggregate';
+  aggregate?: Maybe<Admin_Aggregate_Fields>;
+  nodes: Array<Admin>;
+};
+
+/** aggregate fields of "admin" */
+export type Admin_Aggregate_Fields = {
+  __typename?: 'admin_aggregate_fields';
+  avg?: Maybe<Admin_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Admin_Max_Fields>;
+  min?: Maybe<Admin_Min_Fields>;
+  stddev?: Maybe<Admin_Stddev_Fields>;
+  stddev_pop?: Maybe<Admin_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Admin_Stddev_Samp_Fields>;
+  sum?: Maybe<Admin_Sum_Fields>;
+  var_pop?: Maybe<Admin_Var_Pop_Fields>;
+  var_samp?: Maybe<Admin_Var_Samp_Fields>;
+  variance?: Maybe<Admin_Variance_Fields>;
+};
+
+
+/** aggregate fields of "admin" */
+export type Admin_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Admin_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Admin_Avg_Fields = {
+  __typename?: 'admin_avg_fields';
+  friend_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "admin". All fields are combined with a logical 'AND'. */
+export type Admin_Bool_Exp = {
+  _and?: InputMaybe<Array<Admin_Bool_Exp>>;
+  _not?: InputMaybe<Admin_Bool_Exp>;
+  _or?: InputMaybe<Array<Admin_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  friend?: InputMaybe<Friend_Bool_Exp>;
+  friend_id?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "admin" */
+export enum Admin_Constraint {
+  /** unique or primary key constraint on columns "friend_id" */
+  AdminFriendIdKey = 'admin_friend_id_key',
+  /** unique or primary key constraint on columns "id" */
+  AdminPkey = 'admin_pkey'
+}
+
+/** input type for incrementing numeric columns in table "admin" */
+export type Admin_Inc_Input = {
+  friend_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "admin" */
+export type Admin_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  friend?: InputMaybe<Friend_Obj_Rel_Insert_Input>;
+  friend_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate max on columns */
+export type Admin_Max_Fields = {
+  __typename?: 'admin_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  friend_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type Admin_Min_Fields = {
+  __typename?: 'admin_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  friend_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+/** response of any mutation on the table "admin" */
+export type Admin_Mutation_Response = {
+  __typename?: 'admin_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Admin>;
+};
+
+/** input type for inserting object relation for remote table "admin" */
+export type Admin_Obj_Rel_Insert_Input = {
+  data: Admin_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Admin_On_Conflict>;
+};
+
+/** on_conflict condition type for table "admin" */
+export type Admin_On_Conflict = {
+  constraint: Admin_Constraint;
+  update_columns?: Array<Admin_Update_Column>;
+  where?: InputMaybe<Admin_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "admin". */
+export type Admin_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  friend?: InputMaybe<Friend_Order_By>;
+  friend_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: admin */
+export type Admin_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "admin" */
+export enum Admin_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  FriendId = 'friend_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "admin" */
+export type Admin_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  friend_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+};
+
+/** aggregate stddev on columns */
+export type Admin_Stddev_Fields = {
+  __typename?: 'admin_stddev_fields';
+  friend_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Admin_Stddev_Pop_Fields = {
+  __typename?: 'admin_stddev_pop_fields';
+  friend_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Admin_Stddev_Samp_Fields = {
+  __typename?: 'admin_stddev_samp_fields';
+  friend_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Admin_Sum_Fields = {
+  __typename?: 'admin_sum_fields';
+  friend_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "admin" */
+export enum Admin_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  FriendId = 'friend_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** aggregate var_pop on columns */
+export type Admin_Var_Pop_Fields = {
+  __typename?: 'admin_var_pop_fields';
+  friend_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Admin_Var_Samp_Fields = {
+  __typename?: 'admin_var_samp_fields';
+  friend_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Admin_Variance_Fields = {
+  __typename?: 'admin_variance_fields';
+  friend_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
 /** columns and relationships of "friend" */
 export type Friend = {
   __typename?: 'friend';
+  /** An object relationship */
+  admin?: Maybe<Admin>;
   id: Scalars['Int'];
   password: Scalars['String'];
   /** An array relationship */
@@ -155,6 +378,7 @@ export type Friend_Bool_Exp = {
   _and?: InputMaybe<Array<Friend_Bool_Exp>>;
   _not?: InputMaybe<Friend_Bool_Exp>;
   _or?: InputMaybe<Array<Friend_Bool_Exp>>;
+  admin?: InputMaybe<Admin_Bool_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   password?: InputMaybe<String_Comparison_Exp>;
   pizza_orders?: InputMaybe<Pizza_Order_Bool_Exp>;
@@ -176,6 +400,7 @@ export type Friend_Inc_Input = {
 
 /** input type for inserting data into table "friend" */
 export type Friend_Insert_Input = {
+  admin?: InputMaybe<Admin_Obj_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['Int']>;
   password?: InputMaybe<Scalars['String']>;
   pizza_orders?: InputMaybe<Pizza_Order_Arr_Rel_Insert_Input>;
@@ -223,6 +448,7 @@ export type Friend_On_Conflict = {
 
 /** Ordering options when selecting data from "friend". */
 export type Friend_Order_By = {
+  admin?: InputMaybe<Admin_Order_By>;
   id?: InputMaybe<Order_By>;
   password?: InputMaybe<Order_By>;
   pizza_orders_aggregate?: InputMaybe<Pizza_Order_Aggregate_Order_By>;
@@ -306,10 +532,18 @@ export type Friend_Variance_Fields = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  /** delete data from the table: "admin" */
+  delete_admin?: Maybe<Admin_Mutation_Response>;
+  /** delete single row from the table: "admin" */
+  delete_admin_by_pk?: Maybe<Admin>;
   /** delete data from the table: "friend" */
   delete_friend?: Maybe<Friend_Mutation_Response>;
   /** delete single row from the table: "friend" */
   delete_friend_by_pk?: Maybe<Friend>;
+  /** delete data from the table: "order_status" */
+  delete_order_status?: Maybe<Order_Status_Mutation_Response>;
+  /** delete single row from the table: "order_status" */
+  delete_order_status_by_pk?: Maybe<Order_Status>;
   /** delete data from the table: "pizza" */
   delete_pizza?: Maybe<Pizza_Mutation_Response>;
   /** delete single row from the table: "pizza" */
@@ -326,10 +560,18 @@ export type Mutation_Root = {
   delete_pizza_topping_pizza?: Maybe<Pizza_Topping_Pizza_Mutation_Response>;
   /** delete single row from the table: "pizza_topping_pizza" */
   delete_pizza_topping_pizza_by_pk?: Maybe<Pizza_Topping_Pizza>;
+  /** insert data into the table: "admin" */
+  insert_admin?: Maybe<Admin_Mutation_Response>;
+  /** insert a single row into the table: "admin" */
+  insert_admin_one?: Maybe<Admin>;
   /** insert data into the table: "friend" */
   insert_friend?: Maybe<Friend_Mutation_Response>;
   /** insert a single row into the table: "friend" */
   insert_friend_one?: Maybe<Friend>;
+  /** insert data into the table: "order_status" */
+  insert_order_status?: Maybe<Order_Status_Mutation_Response>;
+  /** insert a single row into the table: "order_status" */
+  insert_order_status_one?: Maybe<Order_Status>;
   /** insert data into the table: "pizza" */
   insert_pizza?: Maybe<Pizza_Mutation_Response>;
   /** insert a single row into the table: "pizza" */
@@ -348,10 +590,18 @@ export type Mutation_Root = {
   insert_pizza_topping_pizza_one?: Maybe<Pizza_Topping_Pizza>;
   login?: Maybe<FriendOutput>;
   signup?: Maybe<FriendOutput>;
+  /** update data of the table: "admin" */
+  update_admin?: Maybe<Admin_Mutation_Response>;
+  /** update single row of the table: "admin" */
+  update_admin_by_pk?: Maybe<Admin>;
   /** update data of the table: "friend" */
   update_friend?: Maybe<Friend_Mutation_Response>;
   /** update single row of the table: "friend" */
   update_friend_by_pk?: Maybe<Friend>;
+  /** update data of the table: "order_status" */
+  update_order_status?: Maybe<Order_Status_Mutation_Response>;
+  /** update single row of the table: "order_status" */
+  update_order_status_by_pk?: Maybe<Order_Status>;
   /** update data of the table: "pizza" */
   update_pizza?: Maybe<Pizza_Mutation_Response>;
   /** update single row of the table: "pizza" */
@@ -372,6 +622,18 @@ export type Mutation_Root = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_AdminArgs = {
+  where: Admin_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Admin_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_FriendArgs = {
   where: Friend_Bool_Exp;
 };
@@ -380,6 +642,18 @@ export type Mutation_RootDelete_FriendArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Friend_By_PkArgs = {
   id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Order_StatusArgs = {
+  where: Order_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Order_Status_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -432,6 +706,20 @@ export type Mutation_RootDelete_Pizza_Topping_Pizza_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_AdminArgs = {
+  objects: Array<Admin_Insert_Input>;
+  on_conflict?: InputMaybe<Admin_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Admin_OneArgs = {
+  object: Admin_Insert_Input;
+  on_conflict?: InputMaybe<Admin_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_FriendArgs = {
   objects: Array<Friend_Insert_Input>;
   on_conflict?: InputMaybe<Friend_On_Conflict>;
@@ -442,6 +730,20 @@ export type Mutation_RootInsert_FriendArgs = {
 export type Mutation_RootInsert_Friend_OneArgs = {
   object: Friend_Insert_Input;
   on_conflict?: InputMaybe<Friend_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Order_StatusArgs = {
+  objects: Array<Order_Status_Insert_Input>;
+  on_conflict?: InputMaybe<Order_Status_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Order_Status_OneArgs = {
+  object: Order_Status_Insert_Input;
+  on_conflict?: InputMaybe<Order_Status_On_Conflict>;
 };
 
 
@@ -516,6 +818,22 @@ export type Mutation_RootSignupArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_AdminArgs = {
+  _inc?: InputMaybe<Admin_Inc_Input>;
+  _set?: InputMaybe<Admin_Set_Input>;
+  where: Admin_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Admin_By_PkArgs = {
+  _inc?: InputMaybe<Admin_Inc_Input>;
+  _set?: InputMaybe<Admin_Set_Input>;
+  pk_columns: Admin_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_FriendArgs = {
   _inc?: InputMaybe<Friend_Inc_Input>;
   _set?: InputMaybe<Friend_Set_Input>;
@@ -528,6 +846,20 @@ export type Mutation_RootUpdate_Friend_By_PkArgs = {
   _inc?: InputMaybe<Friend_Inc_Input>;
   _set?: InputMaybe<Friend_Set_Input>;
   pk_columns: Friend_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Order_StatusArgs = {
+  _set?: InputMaybe<Order_Status_Set_Input>;
+  where: Order_Status_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Order_Status_By_PkArgs = {
+  _set?: InputMaybe<Order_Status_Set_Input>;
+  pk_columns: Order_Status_Pk_Columns_Input;
 };
 
 
@@ -610,6 +942,169 @@ export enum Order_By {
   DescNullsLast = 'desc_nulls_last'
 }
 
+/** columns and relationships of "order_status" */
+export type Order_Status = {
+  __typename?: 'order_status';
+  comment?: Maybe<Scalars['String']>;
+  /** An array relationship */
+  pizza_orders: Array<Pizza_Order>;
+  /** An aggregate relationship */
+  pizza_orders_aggregate: Pizza_Order_Aggregate;
+  value: Scalars['String'];
+};
+
+
+/** columns and relationships of "order_status" */
+export type Order_StatusPizza_OrdersArgs = {
+  distinct_on?: InputMaybe<Array<Pizza_Order_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Pizza_Order_Order_By>>;
+  where?: InputMaybe<Pizza_Order_Bool_Exp>;
+};
+
+
+/** columns and relationships of "order_status" */
+export type Order_StatusPizza_Orders_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Pizza_Order_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Pizza_Order_Order_By>>;
+  where?: InputMaybe<Pizza_Order_Bool_Exp>;
+};
+
+/** aggregated selection of "order_status" */
+export type Order_Status_Aggregate = {
+  __typename?: 'order_status_aggregate';
+  aggregate?: Maybe<Order_Status_Aggregate_Fields>;
+  nodes: Array<Order_Status>;
+};
+
+/** aggregate fields of "order_status" */
+export type Order_Status_Aggregate_Fields = {
+  __typename?: 'order_status_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Order_Status_Max_Fields>;
+  min?: Maybe<Order_Status_Min_Fields>;
+};
+
+
+/** aggregate fields of "order_status" */
+export type Order_Status_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Order_Status_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "order_status". All fields are combined with a logical 'AND'. */
+export type Order_Status_Bool_Exp = {
+  _and?: InputMaybe<Array<Order_Status_Bool_Exp>>;
+  _not?: InputMaybe<Order_Status_Bool_Exp>;
+  _or?: InputMaybe<Array<Order_Status_Bool_Exp>>;
+  comment?: InputMaybe<String_Comparison_Exp>;
+  pizza_orders?: InputMaybe<Pizza_Order_Bool_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "order_status" */
+export enum Order_Status_Constraint {
+  /** unique or primary key constraint on columns "value" */
+  OrderStatusPkey = 'order_status_pkey'
+}
+
+export enum Order_Status_Enum {
+  Baking = 'baking',
+  Gone = 'gone',
+  Open = 'open',
+  Ready = 'ready'
+}
+
+/** Boolean expression to compare columns of type "order_status_enum". All fields are combined with logical 'AND'. */
+export type Order_Status_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Order_Status_Enum>;
+  _in?: InputMaybe<Array<Order_Status_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _neq?: InputMaybe<Order_Status_Enum>;
+  _nin?: InputMaybe<Array<Order_Status_Enum>>;
+};
+
+/** input type for inserting data into table "order_status" */
+export type Order_Status_Insert_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  pizza_orders?: InputMaybe<Pizza_Order_Arr_Rel_Insert_Input>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Order_Status_Max_Fields = {
+  __typename?: 'order_status_max_fields';
+  comment?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Order_Status_Min_Fields = {
+  __typename?: 'order_status_min_fields';
+  comment?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "order_status" */
+export type Order_Status_Mutation_Response = {
+  __typename?: 'order_status_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Order_Status>;
+};
+
+/** input type for inserting object relation for remote table "order_status" */
+export type Order_Status_Obj_Rel_Insert_Input = {
+  data: Order_Status_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Order_Status_On_Conflict>;
+};
+
+/** on_conflict condition type for table "order_status" */
+export type Order_Status_On_Conflict = {
+  constraint: Order_Status_Constraint;
+  update_columns?: Array<Order_Status_Update_Column>;
+  where?: InputMaybe<Order_Status_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "order_status". */
+export type Order_Status_Order_By = {
+  comment?: InputMaybe<Order_By>;
+  pizza_orders_aggregate?: InputMaybe<Pizza_Order_Aggregate_Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: order_status */
+export type Order_Status_Pk_Columns_Input = {
+  value: Scalars['String'];
+};
+
+/** select columns of table "order_status" */
+export enum Order_Status_Select_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "order_status" */
+export type Order_Status_Set_Input = {
+  comment?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "order_status" */
+export enum Order_Status_Update_Column {
+  /** column name */
+  Comment = 'comment',
+  /** column name */
+  Value = 'value'
+}
+
 /** columns and relationships of "pizza" */
 export type Pizza = {
   __typename?: 'pizza';
@@ -624,7 +1119,7 @@ export type Pizza = {
   pizza_topping_pizzas: Array<Pizza_Topping_Pizza>;
   /** An aggregate relationship */
   pizza_topping_pizzas_aggregate: Pizza_Topping_Pizza_Aggregate;
-  title: Scalars['Int'];
+  title: Scalars['String'];
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -703,7 +1198,6 @@ export type Pizza_Avg_Fields = {
   __typename?: 'pizza_avg_fields';
   id?: Maybe<Scalars['Float']>;
   original_friend?: Maybe<Scalars['Float']>;
-  title?: Maybe<Scalars['Float']>;
 };
 
 /** Boolean expression to filter rows from the table "pizza". All fields are combined with a logical 'AND'. */
@@ -716,7 +1210,7 @@ export type Pizza_Bool_Exp = {
   original_friend?: InputMaybe<Int_Comparison_Exp>;
   pizza_orders?: InputMaybe<Pizza_Order_Bool_Exp>;
   pizza_topping_pizzas?: InputMaybe<Pizza_Topping_Pizza_Bool_Exp>;
-  title?: InputMaybe<Int_Comparison_Exp>;
+  title?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
@@ -730,7 +1224,6 @@ export enum Pizza_Constraint {
 export type Pizza_Inc_Input = {
   id?: InputMaybe<Scalars['Int']>;
   original_friend?: InputMaybe<Scalars['Int']>;
-  title?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "pizza" */
@@ -740,7 +1233,7 @@ export type Pizza_Insert_Input = {
   original_friend?: InputMaybe<Scalars['Int']>;
   pizza_orders?: InputMaybe<Pizza_Order_Arr_Rel_Insert_Input>;
   pizza_topping_pizzas?: InputMaybe<Pizza_Topping_Pizza_Arr_Rel_Insert_Input>;
-  title?: InputMaybe<Scalars['Int']>;
+  title?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -750,7 +1243,7 @@ export type Pizza_Max_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   original_friend?: Maybe<Scalars['Int']>;
-  title?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -760,7 +1253,7 @@ export type Pizza_Min_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   original_friend?: Maybe<Scalars['Int']>;
-  title?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -790,13 +1283,18 @@ export type Pizza_On_Conflict = {
 /** columns and relationships of "pizza_order" */
 export type Pizza_Order = {
   __typename?: 'pizza_order';
+  created_at?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
   friend: Friend;
   friend_id: Scalars['Int'];
   id: Scalars['Int'];
   /** An object relationship */
+  orderStatusByOrderStatus: Order_Status;
+  order_status: Order_Status_Enum;
+  /** An object relationship */
   pizza: Pizza;
   pizza_id: Scalars['Int'];
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregated selection of "pizza_order" */
@@ -871,11 +1369,15 @@ export type Pizza_Order_Bool_Exp = {
   _and?: InputMaybe<Array<Pizza_Order_Bool_Exp>>;
   _not?: InputMaybe<Pizza_Order_Bool_Exp>;
   _or?: InputMaybe<Array<Pizza_Order_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   friend?: InputMaybe<Friend_Bool_Exp>;
   friend_id?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
+  orderStatusByOrderStatus?: InputMaybe<Order_Status_Bool_Exp>;
+  order_status?: InputMaybe<Order_Status_Enum_Comparison_Exp>;
   pizza?: InputMaybe<Pizza_Bool_Exp>;
   pizza_id?: InputMaybe<Int_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
 
 /** Ordering options when selecting data from "pizza". */
@@ -904,41 +1406,53 @@ export type Pizza_Order_Inc_Input = {
 
 /** input type for inserting data into table "pizza_order" */
 export type Pizza_Order_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
   friend?: InputMaybe<Friend_Obj_Rel_Insert_Input>;
   friend_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
+  orderStatusByOrderStatus?: InputMaybe<Order_Status_Obj_Rel_Insert_Input>;
+  order_status?: InputMaybe<Order_Status_Enum>;
   pizza?: InputMaybe<Pizza_Obj_Rel_Insert_Input>;
   pizza_id?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate max on columns */
 export type Pizza_Order_Max_Fields = {
   __typename?: 'pizza_order_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
   friend_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   pizza_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by max() on columns of table "pizza_order" */
 export type Pizza_Order_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
   friend_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   pizza_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Pizza_Order_Min_Fields = {
   __typename?: 'pizza_order_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
   friend_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   pizza_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 /** order by min() on columns of table "pizza_order" */
 export type Pizza_Order_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
   friend_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   pizza_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "pizza_order" */
@@ -959,11 +1473,15 @@ export type Pizza_Order_On_Conflict = {
 
 /** Ordering options when selecting data from "pizza_order". */
 export type Pizza_Order_Order_By = {
+  created_at?: InputMaybe<Order_By>;
   friend?: InputMaybe<Friend_Order_By>;
   friend_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  orderStatusByOrderStatus?: InputMaybe<Order_Status_Order_By>;
+  order_status?: InputMaybe<Order_By>;
   pizza?: InputMaybe<Pizza_Order_By>;
   pizza_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: pizza_order */
@@ -974,18 +1492,27 @@ export type Pizza_Order_Pk_Columns_Input = {
 /** select columns of table "pizza_order" */
 export enum Pizza_Order_Select_Column {
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   FriendId = 'friend_id',
   /** column name */
   Id = 'id',
   /** column name */
-  PizzaId = 'pizza_id'
+  OrderStatus = 'order_status',
+  /** column name */
+  PizzaId = 'pizza_id',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "pizza_order" */
 export type Pizza_Order_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
   friend_id?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
+  order_status?: InputMaybe<Order_Status_Enum>;
   pizza_id?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate stddev on columns */
@@ -1051,11 +1578,17 @@ export type Pizza_Order_Sum_Order_By = {
 /** update columns of table "pizza_order" */
 export enum Pizza_Order_Update_Column {
   /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
   FriendId = 'friend_id',
   /** column name */
   Id = 'id',
   /** column name */
-  PizzaId = 'pizza_id'
+  OrderStatus = 'order_status',
+  /** column name */
+  PizzaId = 'pizza_id',
+  /** column name */
+  UpdatedAt = 'updated_at'
 }
 
 /** aggregate var_pop on columns */
@@ -1127,7 +1660,7 @@ export type Pizza_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['Int']>;
   original_friend?: InputMaybe<Scalars['Int']>;
-  title?: InputMaybe<Scalars['Int']>;
+  title?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -1136,7 +1669,6 @@ export type Pizza_Stddev_Fields = {
   __typename?: 'pizza_stddev_fields';
   id?: Maybe<Scalars['Float']>;
   original_friend?: Maybe<Scalars['Float']>;
-  title?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -1144,7 +1676,6 @@ export type Pizza_Stddev_Pop_Fields = {
   __typename?: 'pizza_stddev_pop_fields';
   id?: Maybe<Scalars['Float']>;
   original_friend?: Maybe<Scalars['Float']>;
-  title?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -1152,7 +1683,6 @@ export type Pizza_Stddev_Samp_Fields = {
   __typename?: 'pizza_stddev_samp_fields';
   id?: Maybe<Scalars['Float']>;
   original_friend?: Maybe<Scalars['Float']>;
-  title?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate sum on columns */
@@ -1160,7 +1690,6 @@ export type Pizza_Sum_Fields = {
   __typename?: 'pizza_sum_fields';
   id?: Maybe<Scalars['Int']>;
   original_friend?: Maybe<Scalars['Int']>;
-  title?: Maybe<Scalars['Int']>;
 };
 
 /** columns and relationships of "pizza_topping" */
@@ -1247,7 +1776,9 @@ export type Pizza_Topping_Bool_Exp = {
 /** unique or primary key constraints on table "pizza_topping" */
 export enum Pizza_Topping_Constraint {
   /** unique or primary key constraint on columns "id" */
-  PizzaToppingPkey = 'pizza_topping_pkey'
+  PizzaToppingPkey = 'pizza_topping_pkey',
+  /** unique or primary key constraint on columns "title" */
+  PizzaToppingTitleKey = 'pizza_topping_title_key'
 }
 
 /** input type for incrementing numeric columns in table "pizza_topping" */
@@ -1715,7 +2246,6 @@ export type Pizza_Var_Pop_Fields = {
   __typename?: 'pizza_var_pop_fields';
   id?: Maybe<Scalars['Float']>;
   original_friend?: Maybe<Scalars['Float']>;
-  title?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate var_samp on columns */
@@ -1723,7 +2253,6 @@ export type Pizza_Var_Samp_Fields = {
   __typename?: 'pizza_var_samp_fields';
   id?: Maybe<Scalars['Float']>;
   original_friend?: Maybe<Scalars['Float']>;
-  title?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate variance on columns */
@@ -1731,17 +2260,28 @@ export type Pizza_Variance_Fields = {
   __typename?: 'pizza_variance_fields';
   id?: Maybe<Scalars['Float']>;
   original_friend?: Maybe<Scalars['Float']>;
-  title?: Maybe<Scalars['Float']>;
 };
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "admin" */
+  admin: Array<Admin>;
+  /** fetch aggregated fields from the table: "admin" */
+  admin_aggregate: Admin_Aggregate;
+  /** fetch data from the table: "admin" using primary key columns */
+  admin_by_pk?: Maybe<Admin>;
   /** fetch data from the table: "friend" */
   friend: Array<Friend>;
   /** fetch aggregated fields from the table: "friend" */
   friend_aggregate: Friend_Aggregate;
   /** fetch data from the table: "friend" using primary key columns */
   friend_by_pk?: Maybe<Friend>;
+  /** fetch data from the table: "order_status" */
+  order_status: Array<Order_Status>;
+  /** fetch aggregated fields from the table: "order_status" */
+  order_status_aggregate: Order_Status_Aggregate;
+  /** fetch data from the table: "order_status" using primary key columns */
+  order_status_by_pk?: Maybe<Order_Status>;
   /** fetch data from the table: "pizza" */
   pizza: Array<Pizza>;
   /** fetch aggregated fields from the table: "pizza" */
@@ -1769,6 +2309,29 @@ export type Query_Root = {
 };
 
 
+export type Query_RootAdminArgs = {
+  distinct_on?: InputMaybe<Array<Admin_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Admin_Order_By>>;
+  where?: InputMaybe<Admin_Bool_Exp>;
+};
+
+
+export type Query_RootAdmin_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Admin_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Admin_Order_By>>;
+  where?: InputMaybe<Admin_Bool_Exp>;
+};
+
+
+export type Query_RootAdmin_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Query_RootFriendArgs = {
   distinct_on?: InputMaybe<Array<Friend_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1789,6 +2352,29 @@ export type Query_RootFriend_AggregateArgs = {
 
 export type Query_RootFriend_By_PkArgs = {
   id: Scalars['Int'];
+};
+
+
+export type Query_RootOrder_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Order_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Status_Order_By>>;
+  where?: InputMaybe<Order_Status_Bool_Exp>;
+};
+
+
+export type Query_RootOrder_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Order_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Status_Order_By>>;
+  where?: InputMaybe<Order_Status_Bool_Exp>;
+};
+
+
+export type Query_RootOrder_Status_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -1885,12 +2471,24 @@ export type Query_RootPizza_Topping_Pizza_By_PkArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "admin" */
+  admin: Array<Admin>;
+  /** fetch aggregated fields from the table: "admin" */
+  admin_aggregate: Admin_Aggregate;
+  /** fetch data from the table: "admin" using primary key columns */
+  admin_by_pk?: Maybe<Admin>;
   /** fetch data from the table: "friend" */
   friend: Array<Friend>;
   /** fetch aggregated fields from the table: "friend" */
   friend_aggregate: Friend_Aggregate;
   /** fetch data from the table: "friend" using primary key columns */
   friend_by_pk?: Maybe<Friend>;
+  /** fetch data from the table: "order_status" */
+  order_status: Array<Order_Status>;
+  /** fetch aggregated fields from the table: "order_status" */
+  order_status_aggregate: Order_Status_Aggregate;
+  /** fetch data from the table: "order_status" using primary key columns */
+  order_status_by_pk?: Maybe<Order_Status>;
   /** fetch data from the table: "pizza" */
   pizza: Array<Pizza>;
   /** fetch aggregated fields from the table: "pizza" */
@@ -1918,6 +2516,29 @@ export type Subscription_Root = {
 };
 
 
+export type Subscription_RootAdminArgs = {
+  distinct_on?: InputMaybe<Array<Admin_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Admin_Order_By>>;
+  where?: InputMaybe<Admin_Bool_Exp>;
+};
+
+
+export type Subscription_RootAdmin_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Admin_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Admin_Order_By>>;
+  where?: InputMaybe<Admin_Bool_Exp>;
+};
+
+
+export type Subscription_RootAdmin_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Subscription_RootFriendArgs = {
   distinct_on?: InputMaybe<Array<Friend_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1938,6 +2559,29 @@ export type Subscription_RootFriend_AggregateArgs = {
 
 export type Subscription_RootFriend_By_PkArgs = {
   id: Scalars['Int'];
+};
+
+
+export type Subscription_RootOrder_StatusArgs = {
+  distinct_on?: InputMaybe<Array<Order_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Status_Order_By>>;
+  where?: InputMaybe<Order_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrder_Status_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Order_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Status_Order_By>>;
+  where?: InputMaybe<Order_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrder_Status_By_PkArgs = {
+  value: Scalars['String'];
 };
 
 
@@ -2060,6 +2704,24 @@ export type CheckFriendQueryVariables = Exact<{
 
 export type CheckFriendQuery = { __typename?: 'query_root', friend: Array<{ __typename?: 'friend', id: number, username: string, password: string }> };
 
+export type AllOpenOrdersSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllOpenOrdersSubscription = { __typename?: 'subscription_root', pizza_order: Array<{ __typename?: 'pizza_order', id: number, order_status: Order_Status_Enum, friend: { __typename?: 'friend', username: string }, pizza: { __typename?: 'pizza', title: string, pizza_topping_pizzas: Array<{ __typename?: 'pizza_topping_pizza', pizza_topping: { __typename?: 'pizza_topping', emoji: string } }> } }> };
+
+export type AllPizzasQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllPizzasQuery = { __typename?: 'query_root', pizza: Array<{ __typename?: 'pizza', id: number, title: string, pizza_topping_pizzas: Array<{ __typename?: 'pizza_topping_pizza', pizza_topping: { __typename?: 'pizza_topping', title: string, emoji: string } }> }> };
+
+export type CreatePizzaMutationVariables = Exact<{
+  title?: InputMaybe<Scalars['String']>;
+  pizza_toppings: Array<Pizza_Topping_Pizza_Insert_Input> | Pizza_Topping_Pizza_Insert_Input;
+}>;
+
+
+export type CreatePizzaMutation = { __typename?: 'mutation_root', insert_pizza_order_one?: { __typename?: 'pizza_order', id: number, pizza: { __typename?: 'pizza', title: string, pizza_topping_pizzas: Array<{ __typename?: 'pizza_topping_pizza', pizza_topping: { __typename?: 'pizza_topping', title: string } }> } } | null };
+
 export type GetFriendsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2068,7 +2730,7 @@ export type GetFriendsQuery = { __typename?: 'query_root', friend: Array<{ __typ
 export type GetToppingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetToppingsQuery = { __typename?: 'query_root', pizza_topping: Array<{ __typename?: 'pizza_topping', title: string, available: boolean, emoji: string }> };
+export type GetToppingsQuery = { __typename?: 'query_root', pizza_topping: Array<{ __typename?: 'pizza_topping', id: number, title: string, available: boolean, emoji: string }> };
 
 export type LoginMutationVariables = Exact<{
   username: Scalars['String'];
@@ -2078,6 +2740,27 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'mutation_root', login?: { __typename?: 'FriendOutput', username?: string | null, token?: string | null, id?: any | null } | null };
 
+export type MyOpenOrdersSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyOpenOrdersSubscription = { __typename?: 'subscription_root', pizza_order: Array<{ __typename?: 'pizza_order', id: number, order_status: Order_Status_Enum, pizza: { __typename?: 'pizza', id: number, title: string } }> };
+
+export type MyPizzasQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type MyPizzasQuery = { __typename?: 'query_root', pizza_order: Array<{ __typename?: 'pizza_order', pizza: { __typename?: 'pizza', id: number, title: string, pizza_topping_pizzas: Array<{ __typename?: 'pizza_topping_pizza', pizza_topping: { __typename?: 'pizza_topping', title: string, emoji: string } }> } }> };
+
+export type OrderPizzaMutationVariables = Exact<{
+  pizza_id?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type OrderPizzaMutation = { __typename?: 'mutation_root', insert_pizza_order_one?: { __typename?: 'pizza_order', id: number } | null };
+
+export type PizzaFragment = { __typename?: 'pizza', id: number, title: string, pizza_topping_pizzas: Array<{ __typename?: 'pizza_topping_pizza', pizza_topping: { __typename?: 'pizza_topping', title: string, emoji: string } }> };
+
 export type SignupMutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
@@ -2086,7 +2769,26 @@ export type SignupMutationVariables = Exact<{
 
 export type SignupMutation = { __typename?: 'mutation_root', signup?: { __typename?: 'FriendOutput', username?: string | null, token?: string | null, id?: any | null } | null };
 
+export type UpdateOrderMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<Order_Status_Enum>;
+}>;
 
+
+export type UpdateOrderMutation = { __typename?: 'mutation_root', update_pizza_order?: { __typename?: 'pizza_order_mutation_response', returning: Array<{ __typename?: 'pizza_order', id: number }> } | null };
+
+export const Pizza = gql`
+    fragment Pizza on pizza {
+  id
+  title
+  pizza_topping_pizzas {
+    pizza_topping {
+      title
+      emoji
+    }
+  }
+}
+    `;
 export const InsertFriendOne = gql`
     mutation InsertFriendOne($username: String, $password: String) {
   insert_friend_one(object: {username: $username, password: $password}) {
@@ -2104,6 +2806,49 @@ export const CheckFriend = gql`
   }
 }
     `;
+export const AllOpenOrders = gql`
+    subscription AllOpenOrders {
+  pizza_order(where: {order_status: {_neq: gone}}, order_by: {created_at: asc}) {
+    id
+    order_status
+    friend {
+      username
+    }
+    pizza {
+      title
+      pizza_topping_pizzas {
+        pizza_topping {
+          emoji
+        }
+      }
+    }
+  }
+}
+    `;
+export const AllPizzas = gql`
+    query AllPizzas {
+  pizza {
+    ...Pizza
+  }
+}
+    ${Pizza}`;
+export const CreatePizza = gql`
+    mutation CreatePizza($title: String, $pizza_toppings: [pizza_topping_pizza_insert_input!]!) {
+  insert_pizza_order_one(
+    object: {pizza: {data: {title: $title, pizza_topping_pizzas: {data: $pizza_toppings}}}}
+  ) {
+    id
+    pizza {
+      title
+      pizza_topping_pizzas {
+        pizza_topping {
+          title
+        }
+      }
+    }
+  }
+}
+    `;
 export const GetFriends = gql`
     query GetFriends {
   friend {
@@ -2115,6 +2860,7 @@ export const GetFriends = gql`
 export const GetToppings = gql`
     query GetToppings {
   pizza_topping {
+    id
     title
     available
     emoji
@@ -2130,12 +2876,49 @@ export const Login = gql`
   }
 }
     `;
+export const MyOpenOrders = gql`
+    subscription MyOpenOrders {
+  pizza_order(where: {order_status: {_neq: gone}}) {
+    id
+    order_status
+    pizza {
+      id
+      title
+    }
+  }
+}
+    `;
+export const MyPizzas = gql`
+    query MyPizzas($id: Int!) {
+  pizza_order(where: {friend_id: {_eq: $id}}) {
+    pizza {
+      ...Pizza
+    }
+  }
+}
+    ${Pizza}`;
+export const OrderPizza = gql`
+    mutation OrderPizza($pizza_id: Int) {
+  insert_pizza_order_one(object: {pizza_id: $pizza_id}) {
+    id
+  }
+}
+    `;
 export const Signup = gql`
     mutation Signup($username: String!, $password: String!) {
   signup(username: $username, password: $password) {
     username
     token
     id
+  }
+}
+    `;
+export const UpdateOrder = gql`
+    mutation UpdateOrder($id: Int, $status: order_status_enum) {
+  update_pizza_order(where: {id: {_eq: $id}}, _set: {order_status: $status}) {
+    returning {
+      id
+    }
   }
 }
     `;
@@ -2193,8 +2976,541 @@ export default {
       },
       {
         "kind": "OBJECT",
+        "name": "admin",
+        "fields": [
+          {
+            "name": "created_at",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "friend",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "friend",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "updated_at",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_aggregate",
+        "fields": [
+          {
+            "name": "aggregate",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_aggregate_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "nodes",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "admin",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_aggregate_fields",
+        "fields": [
+          {
+            "name": "avg",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_avg_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "count",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "columns",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "distinct",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "max",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_max_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "min",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_min_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "stddev",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_stddev_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "stddev_pop",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_stddev_pop_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "stddev_samp",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_stddev_samp_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "sum",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_sum_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "var_pop",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_var_pop_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "var_samp",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_var_samp_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "variance",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_variance_fields",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_avg_fields",
+        "fields": [
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_max_fields",
+        "fields": [
+          {
+            "name": "created_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "updated_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_min_fields",
+        "fields": [
+          {
+            "name": "created_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "updated_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_mutation_response",
+        "fields": [
+          {
+            "name": "affected_rows",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "returning",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "admin",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_stddev_fields",
+        "fields": [
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_stddev_pop_fields",
+        "fields": [
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_stddev_samp_fields",
+        "fields": [
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_sum_fields",
+        "fields": [
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_var_pop_fields",
+        "fields": [
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_var_samp_fields",
+        "fields": [
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "admin_variance_fields",
+        "fields": [
+          {
+            "name": "friend_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "friend",
         "fields": [
+          {
+            "name": "admin",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin",
+              "ofType": null
+            },
+            "args": []
+          },
           {
             "name": "id",
             "type": {
@@ -2743,6 +4059,46 @@ export default {
         "name": "mutation_root",
         "fields": [
           {
+            "name": "delete_admin",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_mutation_response",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "where",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "delete_admin_by_pk",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "delete_friend",
             "type": {
               "kind": "OBJECT",
@@ -2772,6 +4128,46 @@ export default {
             "args": [
               {
                 "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "delete_order_status",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status_mutation_response",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "where",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "delete_order_status_by_pk",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "value",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {
@@ -2943,6 +4339,66 @@ export default {
             ]
           },
           {
+            "name": "insert_admin",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_mutation_response",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "objects",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Any"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "name": "on_conflict",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "insert_admin_one",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "object",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "on_conflict",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
             "name": "insert_friend",
             "type": {
               "kind": "OBJECT",
@@ -2980,6 +4436,66 @@ export default {
             "type": {
               "kind": "OBJECT",
               "name": "friend",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "object",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "on_conflict",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "insert_order_status",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status_mutation_response",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "objects",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Any"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "name": "on_conflict",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "insert_order_status_one",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status",
               "ofType": null
             },
             "args": [
@@ -3303,6 +4819,74 @@ export default {
             ]
           },
           {
+            "name": "update_admin",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin_mutation_response",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "_inc",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "_set",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "update_admin_by_pk",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "_inc",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "_set",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "pk_columns",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "update_friend",
             "type": {
               "kind": "OBJECT",
@@ -3351,6 +4935,60 @@ export default {
                   "name": "Any"
                 }
               },
+              {
+                "name": "_set",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "pk_columns",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "update_order_status",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status_mutation_response",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "_set",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "update_order_status_by_pk",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status",
+              "ofType": null
+            },
+            "args": [
               {
                 "name": "_set",
                 "type": {
@@ -3641,6 +5279,331 @@ export default {
                 }
               }
             ]
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "order_status",
+        "fields": [
+          {
+            "name": "comment",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "pizza_orders",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "pizza_order",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "distinct_on",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "order_by",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "pizza_orders_aggregate",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "pizza_order_aggregate",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "distinct_on",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "order_by",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "value",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "order_status_aggregate",
+        "fields": [
+          {
+            "name": "aggregate",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status_aggregate_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "nodes",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "order_status",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "order_status_aggregate_fields",
+        "fields": [
+          {
+            "name": "count",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "columns",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "distinct",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "max",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status_max_fields",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "min",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status_min_fields",
+              "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "order_status_max_fields",
+        "fields": [
+          {
+            "name": "comment",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "value",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "order_status_min_fields",
+        "fields": [
+          {
+            "name": "comment",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "value",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "order_status_mutation_response",
+        "fields": [
+          {
+            "name": "affected_rows",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "returning",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "order_status",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
           }
         ],
         "interfaces": []
@@ -4135,14 +6098,6 @@ export default {
               "name": "Any"
             },
             "args": []
-          },
-          {
-            "name": "title",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
           }
         ],
         "interfaces": []
@@ -4282,6 +6237,14 @@ export default {
         "name": "pizza_order",
         "fields": [
           {
+            "name": "created_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "friend",
             "type": {
               "kind": "NON_NULL",
@@ -4316,6 +6279,29 @@ export default {
             "args": []
           },
           {
+            "name": "orderStatusByOrderStatus",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "order_status",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "order_status",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "pizza",
             "type": {
               "kind": "NON_NULL",
@@ -4335,6 +6321,14 @@ export default {
                 "kind": "SCALAR",
                 "name": "Any"
               }
+            },
+            "args": []
+          },
+          {
+            "name": "updated_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
             },
             "args": []
           }
@@ -4540,6 +6534,14 @@ export default {
         "name": "pizza_order_max_fields",
         "fields": [
           {
+            "name": "created_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "friend_id",
             "type": {
               "kind": "SCALAR",
@@ -4557,6 +6559,14 @@ export default {
           },
           {
             "name": "pizza_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "updated_at",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -4571,6 +6581,14 @@ export default {
         "name": "pizza_order_min_fields",
         "fields": [
           {
+            "name": "created_at",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "friend_id",
             "type": {
               "kind": "SCALAR",
@@ -4588,6 +6606,14 @@ export default {
           },
           {
             "name": "pizza_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "updated_at",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -4869,14 +6895,6 @@ export default {
               "name": "Any"
             },
             "args": []
-          },
-          {
-            "name": "title",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
           }
         ],
         "interfaces": []
@@ -4895,14 +6913,6 @@ export default {
           },
           {
             "name": "original_friend",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
-          },
-          {
-            "name": "title",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -4931,14 +6941,6 @@ export default {
               "name": "Any"
             },
             "args": []
-          },
-          {
-            "name": "title",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
           }
         ],
         "interfaces": []
@@ -4957,14 +6959,6 @@ export default {
           },
           {
             "name": "original_friend",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
-          },
-          {
-            "name": "title",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -6124,14 +8118,6 @@ export default {
               "name": "Any"
             },
             "args": []
-          },
-          {
-            "name": "title",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
           }
         ],
         "interfaces": []
@@ -6150,14 +8136,6 @@ export default {
           },
           {
             "name": "original_friend",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
-          },
-          {
-            "name": "title",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -6186,14 +8164,6 @@ export default {
               "name": "Any"
             },
             "args": []
-          },
-          {
-            "name": "title",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
           }
         ],
         "interfaces": []
@@ -6202,6 +8172,152 @@ export default {
         "kind": "OBJECT",
         "name": "query_root",
         "fields": [
+          {
+            "name": "admin",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "admin",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "distinct_on",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "order_by",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "admin_aggregate",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "admin_aggregate",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "distinct_on",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "order_by",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "admin_by_pk",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
           {
             "name": "friend",
             "type": {
@@ -6338,6 +8454,152 @@ export default {
             "args": [
               {
                 "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "order_status",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "order_status",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "distinct_on",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "order_by",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "order_status_aggregate",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "order_status_aggregate",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "distinct_on",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "order_by",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "order_status_by_pk",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "value",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {
@@ -6940,6 +9202,152 @@ export default {
         "name": "subscription_root",
         "fields": [
           {
+            "name": "admin",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "admin",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "distinct_on",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "order_by",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "admin_aggregate",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "admin_aggregate",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "distinct_on",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "order_by",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "admin_by_pk",
+            "type": {
+              "kind": "OBJECT",
+              "name": "admin",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "friend",
             "type": {
               "kind": "NON_NULL",
@@ -7075,6 +9483,152 @@ export default {
             "args": [
               {
                 "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "order_status",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "order_status",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "distinct_on",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "order_by",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "order_status_aggregate",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "order_status_aggregate",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "distinct_on",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "order_by",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Any"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "where",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "order_status_by_pk",
+            "type": {
+              "kind": "OBJECT",
+              "name": "order_status",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "value",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {
@@ -7680,3 +10234,200 @@ export default {
     "directives": []
   }
 } as unknown as IntrospectionQuery;
+export const PizzaFragmentDoc = gql`
+    fragment Pizza on pizza {
+  id
+  title
+  pizza_topping_pizzas {
+    pizza_topping {
+      title
+      emoji
+    }
+  }
+}
+    `;
+export const InsertFriendOneDocument = gql`
+    mutation InsertFriendOne($username: String, $password: String) {
+  insert_friend_one(object: {username: $username, password: $password}) {
+    id
+    username
+  }
+}
+    `;
+
+export function useInsertFriendOneMutation() {
+  return Urql.useMutation<InsertFriendOneMutation, InsertFriendOneMutationVariables>(InsertFriendOneDocument);
+};
+export const CheckFriendDocument = gql`
+    query CheckFriend($username: String) {
+  friend(where: {username: {_eq: $username}}) {
+    id
+    username
+    password
+  }
+}
+    `;
+
+export function useCheckFriendQuery(options?: Omit<Urql.UseQueryArgs<CheckFriendQueryVariables>, 'query'>) {
+  return Urql.useQuery<CheckFriendQuery>({ query: CheckFriendDocument, ...options });
+};
+export const AllOpenOrdersDocument = gql`
+    subscription AllOpenOrders {
+  pizza_order(where: {order_status: {_neq: gone}}, order_by: {created_at: asc}) {
+    id
+    order_status
+    friend {
+      username
+    }
+    pizza {
+      title
+      pizza_topping_pizzas {
+        pizza_topping {
+          emoji
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useAllOpenOrdersSubscription<TData = AllOpenOrdersSubscription>(options: Omit<Urql.UseSubscriptionArgs<AllOpenOrdersSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<AllOpenOrdersSubscription, TData>) {
+  return Urql.useSubscription<AllOpenOrdersSubscription, TData, AllOpenOrdersSubscriptionVariables>({ query: AllOpenOrdersDocument, ...options }, handler);
+};
+export const AllPizzasDocument = gql`
+    query AllPizzas {
+  pizza {
+    ...Pizza
+  }
+}
+    ${PizzaFragmentDoc}`;
+
+export function useAllPizzasQuery(options?: Omit<Urql.UseQueryArgs<AllPizzasQueryVariables>, 'query'>) {
+  return Urql.useQuery<AllPizzasQuery>({ query: AllPizzasDocument, ...options });
+};
+export const CreatePizzaDocument = gql`
+    mutation CreatePizza($title: String, $pizza_toppings: [pizza_topping_pizza_insert_input!]!) {
+  insert_pizza_order_one(
+    object: {pizza: {data: {title: $title, pizza_topping_pizzas: {data: $pizza_toppings}}}}
+  ) {
+    id
+    pizza {
+      title
+      pizza_topping_pizzas {
+        pizza_topping {
+          title
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useCreatePizzaMutation() {
+  return Urql.useMutation<CreatePizzaMutation, CreatePizzaMutationVariables>(CreatePizzaDocument);
+};
+export const GetFriendsDocument = gql`
+    query GetFriends {
+  friend {
+    username
+    id
+  }
+}
+    `;
+
+export function useGetFriendsQuery(options?: Omit<Urql.UseQueryArgs<GetFriendsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetFriendsQuery>({ query: GetFriendsDocument, ...options });
+};
+export const GetToppingsDocument = gql`
+    query GetToppings {
+  pizza_topping {
+    id
+    title
+    available
+    emoji
+  }
+}
+    `;
+
+export function useGetToppingsQuery(options?: Omit<Urql.UseQueryArgs<GetToppingsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetToppingsQuery>({ query: GetToppingsDocument, ...options });
+};
+export const LoginDocument = gql`
+    mutation Login($username: String!, $password: String!) {
+  login(username: $username, password: $password) {
+    username
+    token
+    id
+  }
+}
+    `;
+
+export function useLoginMutation() {
+  return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+};
+export const MyOpenOrdersDocument = gql`
+    subscription MyOpenOrders {
+  pizza_order(where: {order_status: {_neq: gone}}) {
+    id
+    order_status
+    pizza {
+      id
+      title
+    }
+  }
+}
+    `;
+
+export function useMyOpenOrdersSubscription<TData = MyOpenOrdersSubscription>(options: Omit<Urql.UseSubscriptionArgs<MyOpenOrdersSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<MyOpenOrdersSubscription, TData>) {
+  return Urql.useSubscription<MyOpenOrdersSubscription, TData, MyOpenOrdersSubscriptionVariables>({ query: MyOpenOrdersDocument, ...options }, handler);
+};
+export const MyPizzasDocument = gql`
+    query MyPizzas($id: Int!) {
+  pizza_order(where: {friend_id: {_eq: $id}}) {
+    pizza {
+      ...Pizza
+    }
+  }
+}
+    ${PizzaFragmentDoc}`;
+
+export function useMyPizzasQuery(options: Omit<Urql.UseQueryArgs<MyPizzasQueryVariables>, 'query'>) {
+  return Urql.useQuery<MyPizzasQuery>({ query: MyPizzasDocument, ...options });
+};
+export const OrderPizzaDocument = gql`
+    mutation OrderPizza($pizza_id: Int) {
+  insert_pizza_order_one(object: {pizza_id: $pizza_id}) {
+    id
+  }
+}
+    `;
+
+export function useOrderPizzaMutation() {
+  return Urql.useMutation<OrderPizzaMutation, OrderPizzaMutationVariables>(OrderPizzaDocument);
+};
+export const SignupDocument = gql`
+    mutation Signup($username: String!, $password: String!) {
+  signup(username: $username, password: $password) {
+    username
+    token
+    id
+  }
+}
+    `;
+
+export function useSignupMutation() {
+  return Urql.useMutation<SignupMutation, SignupMutationVariables>(SignupDocument);
+};
+export const UpdateOrderDocument = gql`
+    mutation UpdateOrder($id: Int, $status: order_status_enum) {
+  update_pizza_order(where: {id: {_eq: $id}}, _set: {order_status: $status}) {
+    returning {
+      id
+    }
+  }
+}
+    `;
+
+export function useUpdateOrderMutation() {
+  return Urql.useMutation<UpdateOrderMutation, UpdateOrderMutationVariables>(UpdateOrderDocument);
+};

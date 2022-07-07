@@ -13,9 +13,8 @@ insert_permissions:
     permission:
       check:
         pizza:
-          pizza_orders:
-            id:
-              _eq: X-Hasura-User-Id
+          original_friend:
+            _eq: X-Hasura-User-Id
       columns:
         - pizza_id
         - pizza_topping_id

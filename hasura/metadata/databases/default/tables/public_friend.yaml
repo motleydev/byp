@@ -1,6 +1,14 @@
 table:
   schema: public
   name: friend
+object_relationships:
+  - name: admin
+    using:
+      foreign_key_constraint_on:
+        column: friend_id
+        table:
+          schema: public
+          name: admin
 array_relationships:
   - name: pizza_orders
     using:

@@ -2,6 +2,7 @@ import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { client } from "../utils/client";
 import Cookies from "js-cookie";
+import Router from "next/router";
 import {
   Login,
   LoginMutation,
@@ -77,6 +78,7 @@ const useStore = create<Byp>()(
         logout: () => {
           set({ user: { authed: AUTH.NOT_AUTHED } });
           Cookies.remove("byp-user-id");
+          Router.push("/login");
         },
       }),
       {
