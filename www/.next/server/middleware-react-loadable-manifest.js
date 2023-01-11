@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST={"../components/Header.tsx -> ./Profile":{id:2299,files:["static/chunks/299.e6e4c8da38dbec6d.js"]}};
+self.__REACT_LOADABLE_MANIFEST={"../components/Header.tsx -> ./Profile":{"id":"../components/Header.tsx -> ./Profile","files":["static/chunks/components_Profile_tsx.js"]}}

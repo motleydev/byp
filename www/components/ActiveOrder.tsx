@@ -1,4 +1,5 @@
 import React from "react";
+import { useStore } from "../store/store";
 import {
   MyOpenOrdersSubscription,
   useMyOpenOrdersSubscription,
@@ -71,7 +72,8 @@ const ActiveOrders = ({ orders }: ActiveOrdersProps) => {
 type Props = {};
 
 export default function ActiveOrder({}: Props) {
-  const [{ data }] = useMyOpenOrdersSubscription();
+  const { id } = useStore((store) => store.user);
+  const [{ data }] = useMyOpenOrdersSubscription({ variables: { id: +id! } });
   return (
     <div>
       {!data?.pizza_order.length ? (

@@ -1,8 +1,8 @@
 {
   "../components/Header.tsx -> ./Profile": {
-    "id": 2299,
+    "id": "../components/Header.tsx -> ./Profile",
     "files": [
-      "static/chunks/299.e6e4c8da38dbec6d.js"
+      "static/chunks/components_Profile_tsx.js"
     ]
   }
 }

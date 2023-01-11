@@ -2740,7 +2740,9 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'mutation_root', login?: { __typename?: 'FriendOutput', username?: string | null, token?: string | null, id?: any | null } | null };
 
-export type MyOpenOrdersSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type MyOpenOrdersSubscriptionVariables = Exact<{
+  id: Scalars['Int'];
+}>;
 
 
 export type MyOpenOrdersSubscription = { __typename?: 'subscription_root', pizza_order: Array<{ __typename?: 'pizza_order', id: number, order_status: Order_Status_Enum, pizza: { __typename?: 'pizza', id: number, title: string } }> };
@@ -2877,8 +2879,8 @@ export const Login = gql`
 }
     `;
 export const MyOpenOrders = gql`
-    subscription MyOpenOrders {
-  pizza_order(where: {order_status: {_neq: gone}}) {
+    subscription MyOpenOrders($id: Int!) {
+  pizza_order(where: {order_status: {_neq: gone}, friend_id: {_eq: $id}}) {
     id
     order_status
     pizza {
@@ -10366,8 +10368,8 @@ export function useLoginMutation() {
   return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
 };
 export const MyOpenOrdersDocument = gql`
-    subscription MyOpenOrders {
-  pizza_order(where: {order_status: {_neq: gone}}) {
+    subscription MyOpenOrders($id: Int!) {
+  pizza_order(where: {order_status: {_neq: gone}, friend_id: {_eq: $id}}) {
     id
     order_status
     pizza {

@@ -1,14 +1,7 @@
 {
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/api/_utils/client": "pages/api/_utils/client.js",
-  "/api/actions/login": "pages/api/actions/login.js",
-  "/api/actions/signup": "pages/api/actions/signup.js",
-  "/api/hello": "pages/api/hello.js",
-  "/login": "pages/login.js",
-  "/kitchen": "pages/kitchen.js",
-  "/": "pages/index.js",
-  "/dashboard": "pages/dashboard.js",
   "/_document": "pages/_document.js",
-  "/404": "pages/404.html"
+  "/kitchen": "pages/kitchen.js",
+  "/dashboard": "pages/dashboard.js"
 }

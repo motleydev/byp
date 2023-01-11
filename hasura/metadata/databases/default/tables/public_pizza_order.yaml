@@ -61,20 +61,7 @@ update_permissions:
                   _eq: X-Hasura-User-Id
               - order_status:
                   _eq: ready
-      check:
-        _or:
-          - _exists:
-              _where:
-                friend_id:
-                  _eq: X-Hasura-User-Id
-              _table:
-                schema: public
-                name: admin
-          - _and:
-              - friend_id:
-                  _eq: X-Hasura-User-Id
-              - order_status:
-                  _eq: gone
+      check: {}
 delete_permissions:
   - role: user
     permission:

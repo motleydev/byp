@@ -58,7 +58,7 @@ const subscribeOrNoopExchange = () =>
 const clientConfig = {
   url: process.env.NEXT_PUBLIC_HASURA_PROJECT_ENDPOINT as string,
   fetchOptions: () => {
-    const token = useStore.getState().user.token;
+    const token = () => useStore.getState().user.token;
 
     return !isServerSide && token
       ? {
